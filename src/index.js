@@ -1,3 +1,7 @@
-import * as contrailCharts from 'contrail-charts'
+import _ from 'lodash'
+import Backbone from 'backbone'
+import $ from 'jquery'
 
-export { contrailCharts }
+import '../node_modules/contrail-charts/build/contrail-charts.bundle.css'
+
+export * from '../node_modules/contrail-charts/build/contrail-charts.bundle'
