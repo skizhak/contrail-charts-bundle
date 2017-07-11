@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "bundle contrail-charts with deps",
   "main": "build/contrail-charts.bundle.js",
-  "types": "build/contrail-charts.bundle.d.ts",
+  "types": "src/index.d.ts",
   "scripts": {
     "build": "webpack --env.prod",
     "build:clean": "rm -rf build/* && npm run build",
