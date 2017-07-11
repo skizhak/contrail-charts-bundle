@@ -1,26 +1,233 @@
 import Backbone = require('@types/backbone');
 
 declare class _Events extends Backbone.Events {
-  listeners (event: any, exists?: boolean): any
+  listeners(event: any, exists?: boolean): any
 }
-declare class _View extends _Events {}
-declare class _Model extends _Events {}
+declare class _View extends _Events { }
+declare class _Model extends _Events { }
+
+export module configModels {
+  export interface IMargin {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+    label?: number;
+  }
+
+  export interface IPadding {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  }
+
+  export interface IColor {
+    (colors: any): string;
+  }
+
+  export interface IFormatter {
+    (value: string | number): string;
+  }
+
+  export interface IScale {
+    (value: number): number;
+  }
+
+  export interface ISize {
+    accessor: string;
+  }
+
+  export interface ISerie {
+    getValue?: (data: any) => string | number;
+    getLabel?: (data: any) => string;
+    valueFormatter?: IFormatter;
+  }
+
+  export interface ITemplate {
+    (): string;
+  }
+
+  export interface IComponentBaseConfigModel {
+    id?: string;
+    type?: string;
+    duration?: number;
+    frozen?: boolean;
+    enabled?: boolean;
+    disabled?: boolean;
+    legend?: string;
+    colorScheme?: string[] | IColor;
+    colorScale?: (d?: any) => string;
+    tooltip?: string;
+    action?: { [_eventName: string]: (...args: any[]) => void }
+  }
+
+  export interface IStyleConfigModel {
+    height?: number;
+    width?: number;
+    margin?: IMargin;
+    padding?: IPadding;
+  }
+
+
+  export interface IEmbeddedComponentConfigModel {
+    sourceComponent: string;
+    embedded: boolean;
+  }
+
+  export interface IMenuItem {
+    id: string;
+    component?: string;
+  }
+
+  export interface ILinearAxis {
+    scale?: string | IScale;
+    label?: string;
+    formatter?: string | IFormatter;
+    labelFormatter?: string | IFormatter;
+    ticks?: number;
+    position?: string;
+    domain?: number[];
+  }
+
+  export interface ILinearAccessor {
+    accessor: string;
+    labelFormatter?: string | IFormatter;
+    valueFormatter?: string | IFormatter;
+    chart?: string;
+    axis?: string;
+    tooltip?: string;
+    disabled?: boolean;
+    enabled?: boolean;
+    color?: string | IColor
+  }
+
+  export interface IRadialAccessor {
+    chart?: string;
+    labelFormatter?: string | IFormatter;
+    valueFormatter?: string | IFormatter;
+    angular?: string;
+    radial?: string;
+    angularAxis?: string;
+    color: string | IColor;
+    barPadding?: number
+  }
+
+  export interface IRadialAxis {
+    scale?: string;
+    label?: string;
+    range?: number[];
+    removeLastAngularTick?: boolean;
+    ticks?: number;
+  }
+
+  export interface IColorPickerConfigModel extends IComponentBaseConfigModel {
+    config: IEmbeddedComponentConfigModel
+  }
+
+  export interface ICompositeRadialConfig extends IComponentBaseConfigModel, IStyleConfigModel {
+    accessors?: IRadialAccessor[];
+    axes?: IRadialAxis[];
+  }
+
+  export interface ICompositeRadialConfigModel extends IComponentBaseConfigModel, IStyleConfigModel {
+    config?: ICompositeRadialConfig
+  }
+
+  export interface ICompositeViewConfigModel extends IComponentBaseConfigModel, IStyleConfigModel {
+    template?: string | ITemplate;
+    components?: (IControlPanelConfigModel | ICompositeYConfigModel
+      | IColorPickerConfigModel | IFilterConfigModel
+      | ICompositeRadialConfigModel | INavigationConfigModel
+      | ITooltipConfigModel | IPieConfigModel)[];
+  }
+
+  export interface ICompositeYConfig extends IComponentBaseConfigModel, IStyleConfigModel {
+    chartTypes?: { [axis: string]: string[] };
+    plot?: { [key: string]: ILinearAccessor | ILinearAccessor[] };
+    axes?: { [key: string]: ILinearAxis }
+  }
+
+  export interface ICompositeYConfigModel extends IComponentBaseConfigModel, IStyleConfigModel {
+    // type: 'CompositeY';
+    config: ICompositeYConfig;
+  }
+
+  export interface IControlPanelConfigModel extends IComponentBaseConfigModel {
+    config?: IMenuItem[];
+  }
+
+  export interface ICrossairConfig {
+    tooltip?: string;
+  }
+
+  export interface ICrossairConfigModel extends IComponentBaseConfigModel {
+    config?: ICrossairConfig;
+  }
+
+  export interface IFilterConfigModel extends IComponentBaseConfigModel {
+    config: IEmbeddedComponentConfigModel
+  }
+
+  export interface ILegendEditableConfig {
+    color?: boolean;
+    chart?: boolean;
+  }
+
+  export interface ILegendConfigModel extends IComponentBaseConfigModel {
+    config?: { [key: string]: ILegendEditableConfig }
+  }
+
+  export interface IMessageConfig { }
+
+  export interface IMessageConfigModel extends IComponentBaseConfigModel {
+    config?: IMessageConfig;
+  }
+
+  export interface INavigationConfigModel extends ICompositeYConfigModel {
+    update?: string[];
+    selection?: number[];
+  }
+
+  export interface IPieModel {
+    formatter: string | IFormatter;
+  }
+
+  export interface IPieConfig extends IComponentBaseConfigModel, IStyleConfigModel {
+    radius?: number;
+    serie?: ISerie;
+  }
+
+  export interface IPieConfigModel extends IComponentBaseConfigModel, IStyleConfigModel {
+    model?: IPieModel;
+    config?: IPieConfig;
+  }
+
+  export interface ITooltipConfig {
+    title: { accessor: string };
+    dataConfig: (ILinearAccessor | IRadialAccessor)[];
+  }
+
+  export interface ITooltipConfigModel extends IComponentBaseConfigModel {
+    config: ITooltipConfig;
+  }
+}
 
 /**
  * helper module
  */
 export module helpers {
-  
+
   export class TitleView {
     render(): void;
   }
-  
+
   export class CompositeView {
     constructor(p: any);
     components(): any[];
     setData(data: any);
     get(id: string): any;
-    getByType (type: string | string[]): any[];
+    getByType(type: string | string[]): any[];
     add(p: any): any;
     remove(id: any);
   }
@@ -32,7 +239,7 @@ export module helpers {
 
 export module Util {
   export function hashCode(str: string): number;
-  export const bubbleShapes: { [ key: string ]: string }[];
+  export const bubbleShapes: { [key: string]: string }[];
 }
 
 /**
@@ -48,7 +255,7 @@ export module actions {
   class Action extends _Events {
 
     _deny: boolean;
-    registrars: any[]; 
+    registrars: any[];
 
     constructor(p: any);
     id(): string;
@@ -101,7 +308,7 @@ export module models {
 
     constructor(data: any[], config: any);
     parse(data: any);
-    
+
   }
 
   export class DataFrame extends DataModel {
