@@ -1142,6 +1142,26 @@ export module components {
         setColor(): void;
         setKey(): void;
     }
+    export class StackedBarView extends _ChartView {
+        static Config: StackedBarConfigModel;
+        static Model: models.DataFrame;
+        static Actions: { SelectColor: actions.SelectColor, SelectKey: actions.SelectKey };
+
+        tagName: string;
+        zIndex: number;
+        selectors: ISelectors;
+        events: IEvents;
+        bandWidth: number;
+        padding: configModels.IPadding;
+
+        getScreenX(datum: any): number;
+        getScreenX(datum: any, yAccessor: configModels.ILinearAccessor): number;
+        calculateScales(): void;
+        render(): void;
+        _prepareData(): any[];
+        _onMousemove(d: any, el: HTMLElement, event?: Event): void;
+        _onMouseout(d: any, el: HTMLElement, event?: Event): void;
+    }
 
     /**
      * StandaloneView
