@@ -1,5 +1,8 @@
-import Backbone = require('@types/backbone');
-import d3 = require('@types/d3');
+/// <reference types="backbone"/>
+/// <reference types="d3"/>
+
+import Backbone = require('backbone');
+import d3 = require('d3');
 
 declare class _Events extends Backbone.Events {
     listeners(event: any, exists?: boolean): any
@@ -51,12 +54,14 @@ declare class _ChartView extends _View {
     setFrozen(isFrozen: boolean);
     setHalt(isHalted: boolean);
     remove(): void;
-    _initSVG(): void;
-    _insertSorted(el: HTMLElement);
+    private _initSVG(): void;
+    private _insertSorted(el: HTMLElement);
+    
+    // left public on purpose, to be used when a parent 
+    // container resizes
     _onResize(): void;
-    _onEvent(): void;
+    private _onEvent(): void;
 }
-
 
 type ISelectors = { [ key: string ]: string };
 type IEvents = { [ key: string ]: string };
@@ -437,9 +442,10 @@ export module helpers {
         render(): void;
     }
 
-    export class CompositeView {
+    export class CompositeChart {
+        components: any[];        
+        
         constructor(p: any);
-        components(): any[];
         setData(data: any);
         get(id: string): any;
         getByType(type: string | string[]): any[];
@@ -469,7 +475,7 @@ export module actions {
 
     class Action extends _Events {
 
-        _deny: boolean;
+        private _deny: boolean;
         registrars: any[];
 
         constructor(p: any);
@@ -481,36 +487,36 @@ export module actions {
         isEnabled(): boolean;
         evaluate(selection: any[]): void;
         unRegister(registrar: any);
-        _execute(): void;
-        _evaluate(enable: boolean);
+        protected _execute(): void;
+        private _evaluate(enable: boolean);
     }
 
     export class Refresh extends Action {
-        _execute(accessorName?: string, color?: string): void;
+        protected _execute(accessorName?: string, color?: string): void;
     }
 
     export class SelectColor extends Action {
-        _execute(accessorName?: string, color?: string): void;
+        protected _execute(accessorName?: string, color?: string): void;
     }
 
     export class SelectKey extends Action {
-        _execute(...args: any[]): void;
+        protected _execute(...args: any[]): void;
     }
 
     export class ToggleFreeze extends Action {
-        _execute(toggle?: boolean): void;
+        protected _execute(toggle?: boolean): void;
     }
 
     export class ToggleHalt extends Action {
-        _execute(ids?: (string | string[]), toggle?: boolean): void;
+        protected _execute(ids?: (string | string[]), toggle?: boolean): void;
     }
 
     export class ToggleVisibility extends Action {
-        _execute(ids?: (string | string[]), isVisible?: boolean, ...args: any[]);
+        protected _execute(ids?: (string | string[]), isVisible?: boolean, ...args: any[]);
     }
 
     export class Zoom extends Action {
-        _execute(ids?: (string | string[]), ...args: any[]);
+        protected _execute(ids?: (string | string[]), ...args: any[]);
     }
 }
 
@@ -563,13 +569,13 @@ export module components {
 
         tagName: string;
         zIndex: number;
-         ISelectors
+        selectors: ISelectors;
         events:  IEvents
         getScreenX(datum: any): any;
         calculateScales(): void;
         render(): void;
-        _onMousemove(d: configModels.ILinearAccessor, el: HTMLElement);
-        _onMouseout(d: configModels.ILinearAccessor, el: HTMLElement);
+        private _onMousemove(d: configModels.ILinearAccessor, el: HTMLElement);
+        private _onMouseout(d: configModels.ILinearAccessor, el: HTMLElement);
     }
     
     /**
@@ -600,7 +606,7 @@ export module components {
         zIndex: number;
         selectors: ISelectors;
         render(): void;
-        _renderLabel(): void;
+        private _renderLabel(): void;
     }
 
     /** 
@@ -616,12 +622,12 @@ export module components {
     export class BrushView extends _ChartView {
         tagName: string;
         zIndex: number;
-         ISelectors
+        selectors: ISelectors;
         
         render(): void;
         show(selection: number[]): void;
         hide(): void;
-        _onSelection(): void;
+        private _onSelection(): void;
     }
 
     /**
@@ -635,7 +641,7 @@ export module components {
         data(data: any): Cluster;
         overlapping(): any[];
         buckets(): any[];
-        _collisionDetection(p: any): void;
+        private _collisionDetection(p: any): void;
     }
 
     export class BucketConfigModel extends _ConfigModel {
@@ -656,14 +662,14 @@ export module components {
         events: IEvents;
         
         render(): void;
-        _cluster(data: any): any[];
-        _getId(bucket: any): number;
-        _getSize(bucket: any): number;
+        private _cluster(data: any): any[];
+        private _getId(bucket: any): number;
+        private _getSize(bucket: any): number;
 
-        _onMouseover(d: any, el: HTMLElement, event: Event): void;
-        _onMouseout(d: any, el: HTMLElement, event?: Event): void;
-        _onClickNode(d: any, el: HTMLElement, event?: Event): void;
-        _onBackgroundClick(): void;
+        private _onMouseover(d: any, el: HTMLElement, event: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, event?: Event): void;
+        private _onClickNode(d: any, el: HTMLElement, event?: Event): void;
+        private _onBackgroundClick(): void;
          
     }
 
@@ -684,7 +690,7 @@ export module components {
         render(): void;
         open(d: any, el: HTMLElement): void;
         close(): void;
-        _onSelectColor(d: any, el: HTMLElement, e?: Event): void;
+        private _onSelectColor(d: any, el: HTMLElement, e?: Event): void;
     }
 
     /**
@@ -711,7 +717,7 @@ export module components {
         enableMenuItem(id: string): void;
         disableMenuItem(id: string): void;
         open(config: any): void;
-        _onMenuItemClick(d: any, el: HTMLElement): void;
+        private _onMenuItemClick(d: any, el: HTMLElement): void;
     }
 
     /**
@@ -747,7 +753,7 @@ export module components {
         events: IEvents;
 
         render(): void;
-        _onItemClick(d: any, el: HTMLElement): void;
+        private _onItemClick(d: any, el: HTMLElement): void;
     }
 
     /**
@@ -779,9 +785,9 @@ export module components {
         getScreenY(datum: any, yAccessor: configModels.ILinearAccessor): any;
         calculateScales(): void;
         render(): void;
-        _prepareData(): any[];
-        _onMousemove(d: any, el: HTMLElement, event?: Event): void;
-        _onMouseout(d: any, el: HTMLElement, event?: Event): void;
+        private _prepareData(): any[];
+        private _onMousemove(d: any, el: HTMLElement, event?: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, event?: Event): void;
     }
 
     /**
@@ -813,14 +819,14 @@ export module components {
         events: IEvents;
 
         render(): void;
-        _prepareData(): any;
-        _toggleKey(d: any, el: HTMLElement): void;
-        _setEditState(): void;
-        _toggleEditMode(d: any, el: HTMLElement): void;
-        _addChartTypes(keyAxis: string): void;
-        _toggleSelector(d: any, el: HTMLElement): void;
-        _selectColor(d: any, el: HTMLElement): void;
-        _selectChartType(d: any, el: HTMLElement): void;
+        private _prepareData(): any;
+        private _toggleKey(d: any, el: HTMLElement): void;
+        private _setEditState(): void;
+        private _toggleEditMode(d: any, el: HTMLElement): void;
+        private _addChartTypes(keyAxis: string): void;
+        private _toggleSelector(d: any, el: HTMLElement): void;
+        private _selectColor(d: any, el: HTMLElement): void;
+        private _selectChartType(d: any, el: HTMLElement): void;
     }
 
     /**
@@ -850,9 +856,9 @@ export module components {
         calculateScales(): void;
         render(): void;
 
-        _interpolate(data: any, key: string): any;
-        _onMouseover(d: any, el: HTMLElement): void;
-        _onMouseout(d: any, el: HTMLElement): void;
+        private _interpolate(data: any, key: string): any;
+        private _onMouseover(d: any, el: HTMLElement): void;
+        private _onMouseout(d: any, el: HTMLElement): void;
     }
 
     /**
@@ -877,15 +883,15 @@ export module components {
 
         render(): void;
         zoom(): void;
-        _renderLayout(): void;
-        _renderGraticule(): void;
-        _renderData(): void;
         arc(source: number[], target: number[], bend: number): string;
-        _fit(path: any, projection: any, feature: any, rect: any): void;
+        private _renderLayout(): void;
+        private _renderGraticule(): void;
+        private _renderData(): void;
+        private _fit(path: any, projection: any, feature: any, rect: any): void;
 
-        _onZoom(d?: any, el?: HTMLElement, e?: Event): void;
-        _onMousemove(d: any, el: HTMLElement, e?: Event): void;
-        _onMouseout(d: any, el: HTMLElement, e?: Event): void;
+        private _onZoom(d?: any, el?: HTMLElement, e?: Event): void;
+        private _onMousemove(d: any, el: HTMLElement, e?: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, e?: Event): void;
     }
 
     /**
@@ -922,11 +928,11 @@ export module components {
         events: IEvents;
 
         render(): void;
-        _showLegend(): void;
-        _onMouseover(d: any, el: HTMLElement, event: Event): void;
-        _onMousemove(d: any, el: HTMLElement, event: Event): void;
-        _onMouseout(d: any, el: HTMLElement, event?: Event): void;
-        _onClickNode(d: any, el: HTMLElement, event?: Event): void;
+        private _showLegend(): void;
+        private _onMouseover(d: any, el: HTMLElement, event: Event): void;
+        private _onMousemove(d: any, el: HTMLElement, event: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, event?: Event): void;
+        private _onClickNode(d: any, el: HTMLElement, event?: Event): void;
     }
 
     /**
@@ -988,11 +994,11 @@ export module components {
         bandWidth: number;
 
         render(): void;
-        _createRadialBarPath(d: any);
-        _createEnterRadialBarPath(d: any);
-        _prepareData(): any[];
-        _onMouseover(d: any, el: HTMLElement, e?: Event): void;
-        _onMouseout(d: any, el: HTMLElement, e?: Event): void;
+        private _createRadialBarPath(d: any);
+        private _createEnterRadialBarPath(d: any);
+        private _prepareData(): any[];
+        private _onMouseover(d: any, el: HTMLElement, e?: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, e?: Event): void;
     }
 
     /**
@@ -1018,9 +1024,9 @@ export module components {
         radius: number;
 
         render(): void;
-        _interpolate(data: any, key: string): any; 
-        _onMouseover(d: any, el: HTMLElement, e?: Event): void;
-        _onMouseout(d: any, el: HTMLElement, e?: Event): void;
+        private _interpolate(data: any, key: string): any; 
+        private _onMouseover(d: any, el: HTMLElement, e?: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, e?: Event): void;
     }
 
 
@@ -1047,22 +1053,22 @@ export module components {
         height: number;
         
         render(): void;
-        _calculateDimensions(): void;
-        _prepareRootNode(): void;
-        _prepareHierarchyRootNode(): void;
-        _prepareLinks(): void;
-        _prepareCluster(): void;
-        _prepareCircles(): void;
-        _prepareAngleRanges(): void;
-        _prepareRibbons(): void;
-        _prepareArcs(): void;
-        _prepareHierarchy(): void;
-        _render(): void;
-        _showLegend(): void;
-        _onConfigModelChange(): void;
-        _onMousemove(d: any, el: HTMLElement, e?: Event): void;
-        _onMouseout(d: any, el: HTMLElement, e?: Event): void;
-        _onClickNode(d: any, el: HTMLElement, e?: Event): void;
+        private _calculateDimensions(): void;
+        private _prepareRootNode(): void;
+        private _prepareHierarchyRootNode(): void;
+        private _prepareLinks(): void;
+        private _prepareCluster(): void;
+        private _prepareCircles(): void;
+        private _prepareAngleRanges(): void;
+        private _prepareRibbons(): void;
+        private _prepareArcs(): void;
+        private _prepareHierarchy(): void;
+        private _render(): void;
+        private _showLegend(): void;
+        private _onConfigModelChange(): void;
+        private _onMousemove(d: any, el: HTMLElement, e?: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, e?: Event): void;
+        private _onClickNode(d: any, el: HTMLElement, e?: Event): void;
     }
 
     /**
@@ -1084,10 +1090,10 @@ export module components {
         
         render(): void;
         remove(): void;
-        _prepareLayout(): void;
-        _render(): void;
-        _onMouseoverLink(d: any, el: HTMLElement, e?: Event): void;
-        _onMouseoutLink(d: any, el: HTMLElement, e?: Event): void;
+        private _prepareLayout(): void;
+        private _render(): void;
+        private _onMouseoverLink(d: any, el: HTMLElement, e?: Event): void;
+        private _onMouseoutLink(d: any, el: HTMLElement, e?: Event): void;
     }
 
     /**
@@ -1120,9 +1126,9 @@ export module components {
         cluster(overlapping: any): void;
         zoom(ranges: any): void;
         prepareData(): configModels.IScatterPlotAccessor[];
-        _cluster(): any;
-        _onMouseover(d: any, el: HTMLElement, e?: Event): void;
-        _onMouseout(d: any, el: HTMLElement, e?: Event): void;
+        private _cluster(): any;
+        private _onMouseover(d: any, el: HTMLElement, e?: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, e?: Event): void;
     }
 
     /**
@@ -1158,9 +1164,9 @@ export module components {
         getScreenX(datum: any, yAccessor: configModels.ILinearAccessor): number;
         calculateScales(): void;
         render(): void;
-        _prepareData(): any[];
-        _onMousemove(d: any, el: HTMLElement, event?: Event): void;
-        _onMouseout(d: any, el: HTMLElement, event?: Event): void;
+        private _prepareData(): any[];
+        private _onMousemove(d: any, el: HTMLElement, event?: Event): void;
+        private _onMouseout(d: any, el: HTMLElement, event?: Event): void;
     }
 
     /**
@@ -1195,7 +1201,7 @@ export module components {
 
         render(): void;
         zoom(ranges: any): void;
-        _onSelection(range: number[]);
+        private _onSelection(range: number[]);
         _onResize(): void;
     }
 
@@ -1220,7 +1226,7 @@ export module components {
         render(): void;
         hide(): void;
         place(point: configModels.IPosition, placement: string): void;
-        _loadTemplate(data: any);
+        private _loadTemplate(data: any);
     }
 }
 
@@ -1233,6 +1239,9 @@ export module composites {
      * Composite View
      */
     export class CompositeView extends _ChartView {
+
+        composite: helpers.CompositeChart;
+
         setData(data: any[]): void;
         setConfig(config: configModels.ICompositeViewConfigModel): void;
         render(): void;
@@ -1245,7 +1254,7 @@ export module composites {
      */
     class SelectChartType extends actions.Action {
         constructor(p: any);
-        _execute(...args: any[]): void;
+        protected _execute(...args: any[]): void;
     }
 
     export class CompositeYView extends _ChartView {
@@ -1265,15 +1274,15 @@ export module composites {
         constructor(...args: any[]);
         zoom(ranges?: { [key: string]: number[] });
         cluster(overlapping?: any);
-        _renderClip(): void;
-        _renderAxes(): void;
-        _updateComponents(p?: any): void;
-        _updateComponent(child: configModels.ILinearAccessor, config: any): void;
-        _initCrosshair(): void;
-        _toggleCrosshair(point?: number[]): void;
-        _showLegend(): void;
-        _cluster(): void;
-        _onMousemove(d: any, el: HTMLElement, e: Event): void;
+        private _renderClip(): void;
+        private _renderAxes(): void;
+        private _updateComponents(p?: any): void;
+        private _updateComponent(child: configModels.ILinearAccessor, config: any): void;
+        private _initCrosshair(): void;
+        private _toggleCrosshair(point?: number[]): void;
+        private _showLegend(): void;
+        private _cluster(): void;
+        private _onMousemove(d: any, el: HTMLElement, e: Event): void;
     }
     export class CompositeYConfigModel extends _ConfigModel {
 
@@ -1317,9 +1326,9 @@ export module composites {
         
         render(): void;
         remove(): void;
-        _renderAxes(): void;
-        _updateComponents(p: any): void;
-        _showLegend(): void;
+        private _renderAxes(): void;
+        private _updateComponents(p: any): void;
+        private _showLegend(): void;
 
     }
     export class CompositeRadialConfigModel extends _ConfigModel {
@@ -1364,9 +1373,9 @@ export module composites {
         render(): void;
         remove(): void;
         zoom(): void;
-        _onSelection(range: number | number[]);
+        private _onSelection(range: number | number[]);
         _onResize(): void;
-        _update(): void;
+        private _update(): void;
     }
 
 }
