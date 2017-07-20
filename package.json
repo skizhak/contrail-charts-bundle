@@ -3,7 +3,7 @@
   "version": "0.0.3-b",
   "description": "bundle contrail-charts with deps",
   "main": "build/contrail-charts.bundle.js",
-  "types": "build/contrail-charts.bundle.d.ts",
+  "types": "src/index.d.ts",
   "scripts": {
     "build": "webpack --env.prod",
     "build:clean": "rm -rf build/* && npm run build",
@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/skizhak/contrail-charts-bundle",
   "devDependencies": {
+    "@types/backbone": "^1.3.34",
+    "@types/d3": "^4.9.0",
     "babel-core": "6.24.1",
     "babel-loader": "6.4.1",
     "babel-preset-es2015": "6.24.1",
