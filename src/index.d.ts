@@ -55,7 +55,11 @@ declare class _ChartView extends _View {
   setHalt(isHalted: boolean): void;
   remove(): void;
   private _initSVG(): void;
+<<<<<<< HEAD
   private _insertSorted(el: HTMLElement): void;
+=======
+  private _insertSorted(el: HTMLElement);
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
 
   // left public on purpose, to be used when a parent 
   // container resizes
@@ -488,7 +492,11 @@ export module actions {
     evaluate(selection: any[]): void;
     unRegister(registrar: any): void;
     protected _execute(): void;
+<<<<<<< HEAD
     private _evaluate(enable: boolean): void;
+=======
+    private _evaluate(enable: boolean);
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
   }
 
   export class Refresh extends Action {
@@ -557,7 +565,11 @@ export module components {
     xScale: string | configModels.IScale;
     yScale: string | configModels.IScale;
 
+<<<<<<< HEAD
     set(...args): void;
+=======
+    set(...args: any[]): void;
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
     getOuterWidth(model: any, width: number): number;
     calculateScales(model: any): number[];
     getColor(accessorName: string): string | configModels.IColor;
@@ -574,8 +586,13 @@ export module components {
     getScreenX(datum: any): any;
     calculateScales(): void;
     render(): void;
+<<<<<<< HEAD
     private _onMousemove(d: configModels.ILinearAccessor, el: HTMLElement): void;
     private _onMouseout(d: configModels.ILinearAccessor, el: HTMLElement): void;
+=======
+    private _onMousemove(d: configModels.ILinearAccessor, el: HTMLElement);
+    private _onMouseout(d: configModels.ILinearAccessor, el: HTMLElement);
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
   }
 
   /**
@@ -994,8 +1011,13 @@ export module components {
     bandWidth: number;
 
     render(): void;
+<<<<<<< HEAD
     private _createRadialBarPath(d: any): void;
     private _createEnterRadialBarPath(d: any): void;
+=======
+    private _createRadialBarPath(d: any);
+    private _createEnterRadialBarPath(d: any);
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
     private _prepareData(): any[];
     private _onMouseover(d: any, el: HTMLElement, e?: Event): void;
     private _onMouseout(d: any, el: HTMLElement, e?: Event): void;
@@ -1201,7 +1223,11 @@ export module components {
 
     render(): void;
     zoom(ranges: any): void;
+<<<<<<< HEAD
     private _onSelection(range: number[]): void;
+=======
+    private _onSelection(range: number[]);
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
     _onResize(): void;
   }
 
@@ -1226,7 +1252,11 @@ export module components {
     render(): void;
     hide(): void;
     place(point: configModels.IPosition, placement: string): void;
+<<<<<<< HEAD
     private _loadTemplate(data: any): void;
+=======
+    private _loadTemplate(data: any);
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
   }
 }
 
@@ -1345,7 +1375,11 @@ export module composites {
     getAngularAxisName(accessor: configModels.IRadialAccessor): string;
     getRadialAxisName(accessor: configModels.IRadialAccessor): string;
     getOtherAxisName(position: string, accessor: configModels.IRadialAccessor): string;
+<<<<<<< HEAD
     getAxisAccessors(name: string): configModels.IRadialAccessor[];
+=======
+    getAxisAccessors(name: string): configModels.IRadialAccessor[]
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
     getAxisConfig(name: string): any[];
     calculateScales(model: any, width: number, height: number): void;
     getColor(accessor: configModels.IRadialAccessor): string | configModels.IColor;
@@ -1373,7 +1407,11 @@ export module composites {
     render(): void;
     remove(): void;
     zoom(): void;
+<<<<<<< HEAD
     private _onSelection(range: number | number[]): void;
+=======
+    private _onSelection(range: number | number[]);
+>>>>>>> 001853f0ade513e0a91b658f38cfec0f8a556b14
     _onResize(): void;
     private _update(): void;
   }
