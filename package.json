@@ -1,6 +1,6 @@
 {
   "name": "contrail-charts-bundle",
-  "version": "0.0.3-b",
+  "version": "0.0.4-rc.1",
   "description": "bundle contrail-charts with deps",
   "main": "build/contrail-charts.bundle.js",
   "types": "src/index.d.ts",
@@ -44,5 +44,9 @@
     "style-loader": "^0.18.2",
     "topojson": "2.2.0",
     "webpack": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@types/backbone": "^1.3.34",
+    "@types/d3": "^4.9.0"
   }
 }
