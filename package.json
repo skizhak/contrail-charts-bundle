@@ -1,6 +1,6 @@
 {
   "name": "contrail-charts-bundle",
-  "version": "0.0.4-rc.1",
+  "version": "0.0.4-rc.2",
   "description": "bundle contrail-charts with deps",
   "main": "build/contrail-charts.bundle.js",
   "types": "src/index.d.ts",

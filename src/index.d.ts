@@ -1295,7 +1295,7 @@ export module composites {
     activeAxes: configModels.ILinearAxis | configModels.ILinearAxis[]
     update: string | string[];
 
-    set(...args: any[]);
+    set(...args: any[]): void;
     getComponentType(accessors: configModels.ILinearAccessor | configModels.ILinearAccessor[]): string;
     getAxisName(accessors: configModels.ILinearAccessor | configModels.ILinearAccessor[]): string;
     getAxisAccessors(name: string, filterActive?: boolean): configModels.ILinearAccessor[];
@@ -1305,7 +1305,7 @@ export module composites {
     setColor(accessorName: string, color: string | configModels.IColor): void;
     setKey(accessorName: string, isEnabled: boolean): void;
     setChartType(accessorName: string, type: string): void;
-    syncScales(direction: string, scale: any, ticksAmount: string);
+    syncScales(direction: string, scale: any, ticksAmount: string): void;
     isMultiAccessor(type: string): boolean;
   }
 
