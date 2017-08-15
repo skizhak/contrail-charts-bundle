@@ -46,16 +46,16 @@ declare class _ChartView extends _View {
 
   constructor(p: any);
 
-  setData(data: any[]);
-  serConfig(config: any);
-  render(content?: string);
-  show(data: any[], config: any);
+  setData(data: any[]): void;
+  setConfig(config: any): void;
+  render(content?: string): void;
+  show(data: any[], config: any): void;
   hide(): void;
-  setFrozen(isFrozen: boolean);
-  setHalt(isHalted: boolean);
+  setFrozen(isFrozen: boolean): void;
+  setHalt(isHalted: boolean): void;
   remove(): void;
   private _initSVG(): void;
-  private _insertSorted(el: HTMLElement);
+  private _insertSorted(el: HTMLElement): void;
 
   // left public on purpose, to be used when a parent 
   // container resizes
@@ -446,11 +446,11 @@ export module helpers {
     components: any[];
 
     constructor(p: any);
-    setData(data: any);
+    setData(data: any): void;
     get(id: string): any;
     getByType(type: string | string[]): any[];
     add(p: any): any;
-    remove(id: any);
+    remove(id: any): void;
   }
 }
 
@@ -480,15 +480,15 @@ export module actions {
 
     constructor(p: any);
     id(): string;
-    apply(...args: any[]);
+    apply(...args: any[]): void;
     disable(): void;
     enable(): void;
     canDo(): boolean;
     isEnabled(): boolean;
     evaluate(selection: any[]): void;
-    unRegister(registrar: any);
+    unRegister(registrar: any): void;
     protected _execute(): void;
-    private _evaluate(enable: boolean);
+    private _evaluate(enable: boolean): void;
   }
 
   export class Refresh extends Action {
@@ -512,11 +512,11 @@ export module actions {
   }
 
   export class ToggleVisibility extends Action {
-    protected _execute(ids?: (string | string[]), isVisible?: boolean, ...args: any[]);
+    protected _execute(ids?: (string | string[]), isVisible?: boolean, ...args: any[]): void;
   }
 
   export class Zoom extends Action {
-    protected _execute(ids?: (string | string[]), ...args: any[]);
+    protected _execute(ids?: (string | string[]), ...args: any[]): void;
   }
 }
 
@@ -527,13 +527,13 @@ export module models {
     type: string;
 
     constructor(data: any[], config: any);
-    parse(data: any);
+    parse(data: any): any;
   }
 
   export class DataFrame extends DataModel {
     accessors: string[];
     constructor(...args: any[]);
-    getRangeFor(accessor: (string | string[]), isFull?: boolean);
+    getRangeFor(accessor: (string | string[]), isFull?: boolean): number[];
     getCombinedRange(accessors: string[]): number[];
     getNearest(accessor: string, value: number): number;
     filter(key: string, range: number[]): any[];
@@ -574,8 +574,8 @@ export module components {
     getScreenX(datum: any): any;
     calculateScales(): void;
     render(): void;
-    private _onMousemove(d: configModels.ILinearAccessor, el: HTMLElement);
-    private _onMouseout(d: configModels.ILinearAccessor, el: HTMLElement);
+    private _onMousemove(d: configModels.ILinearAccessor, el: HTMLElement): void;
+    private _onMouseout(d: configModels.ILinearAccessor, el: HTMLElement): void;
   }
 
   /**
@@ -994,8 +994,8 @@ export module components {
     bandWidth: number;
 
     render(): void;
-    private _createRadialBarPath(d: any);
-    private _createEnterRadialBarPath(d: any);
+    private _createRadialBarPath(d: any): void;
+    private _createEnterRadialBarPath(d: any): void;
     private _prepareData(): any[];
     private _onMouseover(d: any, el: HTMLElement, e?: Event): void;
     private _onMouseout(d: any, el: HTMLElement, e?: Event): void;
@@ -1201,7 +1201,7 @@ export module components {
 
     render(): void;
     zoom(ranges: any): void;
-    private _onSelection(range: number[]);
+    private _onSelection(range: number[]): void;
     _onResize(): void;
   }
 
@@ -1226,7 +1226,7 @@ export module components {
     render(): void;
     hide(): void;
     place(point: configModels.IPosition, placement: string): void;
-    private _loadTemplate(data: any);
+    private _loadTemplate(data: any): void;
   }
 }
 
@@ -1272,8 +1272,8 @@ export module composites {
     selectors: ISelectors;
 
     constructor(...args: any[]);
-    zoom(ranges?: { [key: string]: number[] });
-    cluster(overlapping?: any);
+    zoom(ranges?: { [key: string]: number[] }): void;
+    cluster(overlapping?: any): void;
     private _renderClip(): void;
     private _renderAxes(): void;
     private _updateComponents(p?: any): void;
@@ -1295,8 +1295,8 @@ export module composites {
     activeAxes: configModels.ILinearAxis | configModels.ILinearAxis[]
     update: string | string[];
 
-    set(...args: any[]);
-    getComponentType(accessors: configModels.ILinearAccessor | configModels.ILinearAccessor[]);
+    set(...args: any[]): void;
+    getComponentType(accessors: configModels.ILinearAccessor | configModels.ILinearAccessor[]): string;
     getAxisName(accessors: configModels.ILinearAccessor | configModels.ILinearAccessor[]): string;
     getAxisAccessors(name: string, filterActive?: boolean): configModels.ILinearAccessor[];
     getAxisConfig(name: string): configModels.ILinearAxis;
@@ -1305,7 +1305,7 @@ export module composites {
     setColor(accessorName: string, color: string | configModels.IColor): void;
     setKey(accessorName: string, isEnabled: boolean): void;
     setChartType(accessorName: string, type: string): void;
-    syncScales(direction: string, scale: any, ticksAmount: string);
+    syncScales(direction: string, scale: any, ticksAmount: string): void;
     isMultiAccessor(type: string): boolean;
   }
 
@@ -1339,18 +1339,18 @@ export module composites {
     activeAngularAxes: configModels.IRadialAxis[];
     activeRadialAxes: configModels.IRadialAxis[];
 
-    set(...args: any[]);
+    set(...args: any[]): void;
     getComponentType(accessor: configModels.IRadialAccessor): string;
     getAccessorKey(accessor: configModels.IRadialAccessor): string;
     getAngularAxisName(accessor: configModels.IRadialAccessor): string;
     getRadialAxisName(accessor: configModels.IRadialAccessor): string;
     getOtherAxisName(position: string, accessor: configModels.IRadialAccessor): string;
-    getAxisAccessors(name: string): configModels.IRadialAccessor[]
+    getAxisAccessors(name: string): configModels.IRadialAccessor[];
     getAxisConfig(name: string): any[];
-    calculateScales(model: any, width: number, height: number);
+    calculateScales(model: any, width: number, height: number): void;
     getColor(accessor: configModels.IRadialAccessor): string | configModels.IColor;
-    setColor(accessorName: string, color?: string | configModels.IColor);
-    setKey(accessorName: string, isEnabled?: boolean);
+    setColor(accessorName: string, color?: string | configModels.IColor): void;
+    setKey(accessorName: string, isEnabled?: boolean): void;
     isMultiAccessor(type: string): boolean;
 
   }
@@ -1360,7 +1360,7 @@ export module composites {
    */
   export class NavigationConfigModel extends _ConfigModel {
     defaults: configModels.INavigationConfigModel;
-    getSelectionRange(xRange: number | number[]);
+    getSelectionRange(xRange: number | number[]): number[];
   }
   export class NavigationView extends _ChartView {
     static Config: NavigationConfigModel;
@@ -1373,7 +1373,7 @@ export module composites {
     render(): void;
     remove(): void;
     zoom(): void;
-    private _onSelection(range: number | number[]);
+    private _onSelection(range: number | number[]): void;
     _onResize(): void;
     private _update(): void;
   }
