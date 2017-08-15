@@ -46,13 +46,13 @@ declare class _ChartView extends _View {
 
   constructor(p: any);
 
-  setData(data: any[]);
-  serConfig(config: any);
-  render(content?: string);
-  show(data: any[], config: any);
+  setData(data: any[]): void;
+  setConfig(config: any): void;
+  render(content?: string): void;
+  show(data: any[], config: any): void;
   hide(): void;
-  setFrozen(isFrozen: boolean);
-  setHalt(isHalted: boolean);
+  setFrozen(isFrozen: boolean): void;
+  setHalt(isHalted: boolean): void;
   remove(): void;
   private _initSVG(): void;
   private _insertSorted(el: HTMLElement);
@@ -446,11 +446,11 @@ export module helpers {
     components: any[];
 
     constructor(p: any);
-    setData(data: any);
+    setData(data: any): void;
     get(id: string): any;
     getByType(type: string | string[]): any[];
     add(p: any): any;
-    remove(id: any);
+    remove(id: any): void;
   }
 }
 
@@ -480,13 +480,13 @@ export module actions {
 
     constructor(p: any);
     id(): string;
-    apply(...args: any[]);
+    apply(...args: any[]): void;
     disable(): void;
     enable(): void;
     canDo(): boolean;
     isEnabled(): boolean;
     evaluate(selection: any[]): void;
-    unRegister(registrar: any);
+    unRegister(registrar: any): void;
     protected _execute(): void;
     private _evaluate(enable: boolean);
   }
@@ -512,11 +512,11 @@ export module actions {
   }
 
   export class ToggleVisibility extends Action {
-    protected _execute(ids?: (string | string[]), isVisible?: boolean, ...args: any[]);
+    protected _execute(ids?: (string | string[]), isVisible?: boolean, ...args: any[]): void;
   }
 
   export class Zoom extends Action {
-    protected _execute(ids?: (string | string[]), ...args: any[]);
+    protected _execute(ids?: (string | string[]), ...args: any[]): void;
   }
 }
 
@@ -527,13 +527,13 @@ export module models {
     type: string;
 
     constructor(data: any[], config: any);
-    parse(data: any);
+    parse(data: any): any;
   }
 
   export class DataFrame extends DataModel {
     accessors: string[];
     constructor(...args: any[]);
-    getRangeFor(accessor: (string | string[]), isFull?: boolean);
+    getRangeFor(accessor: (string | string[]), isFull?: boolean): number[];
     getCombinedRange(accessors: string[]): number[];
     getNearest(accessor: string, value: number): number;
     filter(key: string, range: number[]): any[];
@@ -557,7 +557,7 @@ export module components {
     xScale: string | configModels.IScale;
     yScale: string | configModels.IScale;
 
-    set(...args): void;
+    set(...args: any[]): void;
     getOuterWidth(model: any, width: number): number;
     calculateScales(model: any): number[];
     getColor(accessorName: string): string | configModels.IColor;
@@ -1272,8 +1272,8 @@ export module composites {
     selectors: ISelectors;
 
     constructor(...args: any[]);
-    zoom(ranges?: { [key: string]: number[] });
-    cluster(overlapping?: any);
+    zoom(ranges?: { [key: string]: number[] }): void;
+    cluster(overlapping?: any): void;
     private _renderClip(): void;
     private _renderAxes(): void;
     private _updateComponents(p?: any): void;
@@ -1296,7 +1296,7 @@ export module composites {
     update: string | string[];
 
     set(...args: any[]);
-    getComponentType(accessors: configModels.ILinearAccessor | configModels.ILinearAccessor[]);
+    getComponentType(accessors: configModels.ILinearAccessor | configModels.ILinearAccessor[]): string;
     getAxisName(accessors: configModels.ILinearAccessor | configModels.ILinearAccessor[]): string;
     getAxisAccessors(name: string, filterActive?: boolean): configModels.ILinearAccessor[];
     getAxisConfig(name: string): configModels.ILinearAxis;
@@ -1339,7 +1339,7 @@ export module composites {
     activeAngularAxes: configModels.IRadialAxis[];
     activeRadialAxes: configModels.IRadialAxis[];
 
-    set(...args: any[]);
+    set(...args: any[]): void;
     getComponentType(accessor: configModels.IRadialAccessor): string;
     getAccessorKey(accessor: configModels.IRadialAccessor): string;
     getAngularAxisName(accessor: configModels.IRadialAccessor): string;
@@ -1347,10 +1347,10 @@ export module composites {
     getOtherAxisName(position: string, accessor: configModels.IRadialAccessor): string;
     getAxisAccessors(name: string): configModels.IRadialAccessor[]
     getAxisConfig(name: string): any[];
-    calculateScales(model: any, width: number, height: number);
+    calculateScales(model: any, width: number, height: number): void;
     getColor(accessor: configModels.IRadialAccessor): string | configModels.IColor;
-    setColor(accessorName: string, color?: string | configModels.IColor);
-    setKey(accessorName: string, isEnabled?: boolean);
+    setColor(accessorName: string, color?: string | configModels.IColor): void;
+    setKey(accessorName: string, isEnabled?: boolean): void;
     isMultiAccessor(type: string): boolean;
 
   }
@@ -1360,7 +1360,7 @@ export module composites {
    */
   export class NavigationConfigModel extends _ConfigModel {
     defaults: configModels.INavigationConfigModel;
-    getSelectionRange(xRange: number | number[]);
+    getSelectionRange(xRange: number | number[]): number[];
   }
   export class NavigationView extends _ChartView {
     static Config: NavigationConfigModel;
